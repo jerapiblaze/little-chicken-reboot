@@ -1,6 +1,5 @@
 require("dot-env");
 const { Client, Intents } = require('discord.js');
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 const { token, enableBackup, restoreAtStartup, backupInterval, backupOnExit } = process.env;
 const backupTools = require('./backup-restore.js');
 const fs = require('fs');
@@ -53,8 +52,9 @@ for (executableFilename of executableFilesList){
 };
 
 logger.info("Loaded executables.")
-// logger.info(JSON.stringify(executables));
-// process.exit(0);
+
+// client initialize
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES], partials:['CHANNEL', 'MESSAGE', 'USER', 'GUILD_MEMBER'] });
 
 // backup every exit
 async function exitHandler(options, exitCode) {
@@ -112,7 +112,7 @@ client.on('interactionCreate', async interaction => {
     };
 
     if (interaction.isModalSubmit()){
-        const selectedExecutableSet = executables.interactionCreate.isModalSubmit
+        const selectedExecutableSet = executables.interactionCreate.modalSubmit
         if (selectedExecutableSet.has(interaction.customId)) {
             try {
                 selectedExecutableSet.get(interaction.customId)(interaction);
@@ -122,6 +122,19 @@ client.on('interactionCreate', async interaction => {
         }
     };
 });
+
+client.on('messageCreate', async message => {
+    const selectedExecutableSet = executables.message.messageCreate
+    selectedExecutableSet.forEach(async exec => {
+        try {
+            exec(message)
+        } catch (e){
+            logger.error(e);
+        }
+    })
+})
+
+client.on('rateLimit', info => logger.warn(info));
 
 logger.info("Logging in...");
 client.login(token).catch(e => {
