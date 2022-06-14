@@ -1,6 +1,6 @@
 require("dot-env");
 const { Client, Intents } = require('discord.js');
-const { token, enableBackup, restoreAtStartup, backupInterval, backupOnExit } = process.env;
+const { DISCORD_TOKEN, DISCORD_CLIENT_ID, DISCORD_TEST_GUILD_ID, ENVIRONMENT, BACKUP_ENABLE, RESTORE_AT_STARTUP, BACKUP_ON_EXIT, BACKUP_INTERVAL } = process.env;
 const backupTools = require('./backup-restore.js');
 const fs = require('fs');
 
@@ -15,6 +15,7 @@ global.logger = require("pino")({
     },
     name: 'main'
 });
+logger.info(`Little Chicken v3.0 (${ENVIRONMENT})`);
 
 // load executables
 logger.info("Scanning for executables...");
@@ -56,36 +57,37 @@ logger.info("Loaded executables.")
 // client initialize
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES], partials:['CHANNEL', 'MESSAGE', 'USER', 'GUILD_MEMBER'] });
 
-// backup every exit
-async function exitHandler(options, exitCode) {
-    if (exitCode == 'exitOk') {
-        logger.info("EXIT!");
-        return 0;
-    };
-    if (exitCode == 'uncaughtException'){
-        logger.error(exitCode);
-    } else {
-        logger.info(exitCode);
-    };
-    if (backupOnExit == 1){
-        await backupTools.backup();
-    };
-    process.exit('exitOk');
-}
-
-[`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
-    process.on(eventType, exitHandler.bind(null, eventType));
-})
-
 // client events handling
 client.on('ready', () => {
     logger.info(`Logged in as ${client.user.tag}!`);
-    if (enableBackup == 1){
+
+    // backup
+    if (BACKUP_ENABLE == 1){
         setInterval(backupTools.backup, backupInterval);
     };
-    if (restoreAtStartup == 1){
+    // restore
+    if (RESTORE_AT_STARTUP == 1){
         backupTools.restore();
     };
+    // backup every exit
+    async function exitHandler(options, exitCode) {
+        if (exitCode == 'exitOk') {
+            logger.info("EXIT!");
+            return 0;
+        };
+        if (exitCode == 'uncaughtException') {
+            logger.error(exitCode);
+        } else {
+            logger.info(exitCode);
+        };
+        if (BACKUP_ON_EXIT == 1) {
+            await backupTools.backup();
+        };
+        process.exit('exitOk');
+    }
+    [`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
+        process.on(eventType, exitHandler.bind(null, eventType));
+    });
 });
 
 client.on('interactionCreate', async interaction => {
@@ -137,6 +139,6 @@ client.on('messageCreate', async message => {
 client.on('rateLimit', info => logger.warn(info));
 
 logger.info("Logging in...");
-client.login(token).catch(e => {
+client.login(DISCORD_TOKEN).catch(e => {
     logger.error(`Login failed: ${e}`);
 });
