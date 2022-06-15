@@ -6,5 +6,5 @@ little-chicken-reboot.code-workspace
 .vscode
 thunder-tests
 @cloud
-data
+data/*
 notes.txt
