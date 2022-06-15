@@ -1,8 +1,13 @@
 require('dot-env');
 const md5File = require('md5-file');
 const { zip, COMPRESSION_LEVEL } = require('zip-a-folder');
+const { Client, Intents, Message, MessageAttachment } = require('discord.js');
+const { DISCORD_TOKEN, BACKUP_CHANNEL } = process.env;
 const extract = require('extract-zip');
+function sleep(time) { return new Promise((resolve) => setTimeout(resolve, time)) };
 const fs = require('fs');
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const { promisify } = require('util');
 const logger = require("pino")({
     transport: {
         targets: [
@@ -12,6 +17,13 @@ const logger = require("pino")({
         ]
     },
     name: 'backup-restore'
+});
+
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES], partials: ['CHANNEL', 'MESSAGE'] });
+client.login(DISCORD_TOKEN).catch(e => logger.error(e));
+client.on('ready', async () => {
+    await client.channels.fetch(BACKUP_CHANNEL);
+    logger.info("Backup client ready.");
 });
 
 async function backup(){
@@ -30,7 +42,12 @@ async function backup(){
     
     // upload
     logger.trace(`Uploading...`);
-    fs.copyFileSync(`./${filename}`, `./@cloud/${filename}`);
+    const attachment = new MessageAttachment(`./${filename}`);
+    while (!client.isReady()) {
+        logger.warn("Backup client is not ready yet. Waiting for 5 secs...");
+        await sleep(5000);
+    }
+    await client.channels.cache.get(BACKUP_CHANNEL).send({files:[attachment]}).catch(e => logger.error(e));
     
     // delete file
     logger.trace(`Cleaning up...`);
@@ -38,15 +55,31 @@ async function backup(){
     logger.info("Backup completed!");
 }
 
-async function restore(){
+async function restore(msgid){
     logger.info("Starting restore...");
-    const filename = `1655028177365.c549ae2c96563a494a954e1a079a5931.DEV.zip`;
+    while (!client.isReady()){
+        logger.warn("Backup client is not ready yet. Waiting for 5 secs...");
+        await sleep(5000);
+    }
+
+    logger.trace("Fetching backup...");
+    const fetchedMessages = await client.channels.cache.get(BACKUP_CHANNEL).messages.fetch(msgid).catch(e => logger.error(e));
+    const backupMessage = fetchedMessages.first();
+    if (!backupMessage) {
+        logger.warn("No backup found!");
+        return 0;
+    }
+    await backupMessage.fetch();
+    const filename = backupMessage.attachments.first().name;
+    const fileurl = backupMessage.attachments.first().url;
     // download file
     logger.trace("Downloading backup file...");
-    fs.copyFileSync(`./@cloud/${filename}`, `./${filename}`)
     
+    const writeFilePromise = promisify(fs.writeFile);
+    await fetch(fileurl).then(x => x.arrayBuffer()).then(x => writeFilePromise(`./${filename}`, Buffer.from(x)));
+
     // parse
-    logger.info("Parsing data...")
+    logger.trace("Parsing data...")
     const parsedFilename = filename.split('.')
     const remoteTimestamp = parsedFilename[0];
     const remoteHash = parsedFilename[1];
@@ -65,7 +98,7 @@ async function restore(){
     // delete file
     logger.trace("Cleaning up...");
     fs.rmSync(`./${filename}`);
-    logger.info("Restore completed");
+    logger.info("Restore completed!");
 }
 
 module.exports = {

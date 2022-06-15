@@ -8,7 +8,7 @@ function execute(interaction){
     const client = interaction.client
 
     const log = logger.child({ module: "interaction/slash/ping" });
-    const { ms2human } = executables.ultils.get('timetools');
+    const { ms2human } = executables.tools.get('timetools');
 
     const time = new Date().toString().split(' ').splice(0, 6).join(' ');
 

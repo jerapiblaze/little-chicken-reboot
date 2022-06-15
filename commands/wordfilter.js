@@ -22,6 +22,6 @@ const execute = async (message, wordList) => {
 }
 
 module.exports = {
-    commandType: "ultils",
+    commandType: "tools",
     execute
 }

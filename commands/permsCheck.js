@@ -1,3 +1,3 @@
 module.exports = {
-    commandType: "ultils"
+    commandType: "tools"
 }

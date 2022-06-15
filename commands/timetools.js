@@ -70,9 +70,7 @@ const ms2human = (m, options) => {
 }
 
 module.exports = {
-    commandType: 'ultils',
-    execute: {
-        ms2human,
-        timeExtract
-    }
+    commandType: 'tools',
+    ms2human,
+    timeExtract
 }
