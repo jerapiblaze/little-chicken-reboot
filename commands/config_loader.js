@@ -3,6 +3,10 @@ var configStore = new Map();
 
 const log = logger.child({module: "config_loader"});
 
+if (!fs.existsSync(`${DATA_PATH}/server_configs`)){
+    fs.mkdirSync(`${DATA_PATH}/server_configs`);
+}
+
 async function reloadConfigs(keys){
     var configFileList = keys;
     if (!configFileList){
