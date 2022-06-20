@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { config } = require('process');
 var configStore = new Map();
 
 const log = logger.child({module: "config_loader"});
@@ -42,7 +43,7 @@ async function writeConfig(key, value){
 async function deleteConfig(key){
     if (!configStore.has(key)) {
         log.warn(`No config found with key ${key}`);
-        return null;
+        return undefined;
     }
     configStore.delete(key);
     fs.rmSync(`${DATA_PATH}/server_configs/${key}.json`);
@@ -56,6 +57,19 @@ async function dumpConfigs(){
     log.info('Dumping configs complete.')
 }
 
+async function findConfig(key, subkey, value){
+    if (!configStore.has(key)){
+        return undefined;
+    }
+    const cS = configStore.get(key);
+    for (c of cS){
+        if (c[subkey] == value){
+            return c;
+        }
+    }
+    return undefined;
+}
+
 module.exports = {
     commandType: "tools",
     //slashCommandRegInfo,
@@ -63,5 +77,6 @@ module.exports = {
     getConfig,
     writeConfig,
     deleteConfig,
-    dumpConfigs
+    dumpConfigs,
+    findConfig
 }

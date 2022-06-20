@@ -1,5 +1,5 @@
-const execute = async (message, wordList) => {
-    if (!wordList) return {
+const checkBlocked = async (message, wordList) => {
+    if (wordList == null) return {
         verify: false,
         word: null
     }
@@ -23,5 +23,5 @@ const execute = async (message, wordList) => {
 
 module.exports = {
     commandType: "tools",
-    execute
+    checkBlocked
 }

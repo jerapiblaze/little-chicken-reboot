@@ -5,22 +5,21 @@ async function execute(interaction) {
     if (!allowed) {
         return 0;
     }
-
+    
     const modal = new Modal()
         .setCustomId('edittags_cfs_execute')
-        .setTitle(`Edit tags for cfsid: ${interaction.message.id}`);
+        .setTitle(`Add reply to cfsid: ${interaction.message.id}`);
 
     const newTags = new TextInputComponent()
-        .setCustomId('newTags')
-        .setLabel(`Syntax: tag_emoji1; tag_emoji2 (max:10)`)
+        .setCustomId('newReply')
+        .setLabel(`Input reply`)
         .setStyle('PARAGRAPH')
-        .setPlaceholder(`Leave blank to clear!\nOld tags: 🤡;🤧;🥲;🐧;👌`)
-        .setMaxLength(20)
+        .setMaxLength(100)
 
     const firstActionRow = new MessageActionRow().addComponents(newTags);
 
     modal.addComponents(firstActionRow);
-    
+
     await interaction.showModal(modal);
 }
 

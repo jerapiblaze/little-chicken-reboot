@@ -2,7 +2,7 @@ require('dot-env');
 const md5File = require('md5-file');
 const { zip, COMPRESSION_LEVEL } = require('zip-a-folder');
 const { Client, Intents, Message, MessageAttachment } = require('discord.js');
-const { DISCORD_TOKEN, BACKUP_CHANNEL } = process.env;
+const { DISCORD_TOKEN, BACKUP_CHANNEL, BACKUP_ENABLE } = process.env;
 const extract = require('extract-zip');
 function sleep(time) { return new Promise((resolve) => setTimeout(resolve, time)) };
 const fs = require('fs');
@@ -18,6 +18,10 @@ const logger = require("pino")({
     },
     name: 'backup-restore'
 });
+
+if (BACKUP_ENABLE == 0){
+    return 0;
+}
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES], partials: ['CHANNEL', 'MESSAGE'] });
 client.login(DISCORD_TOKEN).catch(e => logger.error(e));

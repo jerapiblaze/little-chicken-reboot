@@ -4,7 +4,8 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { DISCORD_TOKEN, DISCORD_CLIENT_ID, DISCORD_TEST_GUILD_ID, GLOBAL_SLASH } = process.env;
 const fs = require('fs');
-const logger = require("pino")({
+global.DATA_PATH = `${__dirname}/data`
+global.logger = require("pino")({
     transport: {
         targets: [
             { target: 'pino/file', options: { destination: './data/logs/regCommands.log', mkdir: true } },

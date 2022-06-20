@@ -4,6 +4,7 @@ const { DISCORD_TOKEN, DISCORD_CLIENT_ID, DISCORD_TEST_GUILD_ID, ENVIRONMENT, BA
 const backupTools = require('./backup-restore.js');
 const fs = require('fs');
 global.DATA_PATH = `${__dirname}/data`;
+global.Moment = require('moment-timezone');
 
 // initialize logger
 global.logger = require("pino")({
@@ -137,7 +138,7 @@ client.on('messageCreate', async message => {
     const selectedExecutableSet = executables.message.messageCreate
     selectedExecutableSet.forEach(async selectedExecutable => {
         try {
-            selectedExecutable.execute(message);
+            await selectedExecutable.execute(message);
         } catch (e){
             logger.error(e);
         }
