@@ -8,6 +8,17 @@ async function checkRoleName(member, roleName){
     }
     return false;
 }
+
+async function checkPerms(member, perms){
+    await member.fetch();
+    const memberPermissions = member.permissions;
+    for (p of perms){
+        if (!memberPermissions.has(Permissions.FLAGS[p])){
+            return false;
+        }
+    }
+    return true;
+}
 module.exports = {
     commandType: "tools",
     checkRoleName

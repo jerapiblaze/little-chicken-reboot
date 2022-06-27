@@ -94,7 +94,7 @@ client.on('ready', async () => {
     });
 
     // load configs
-    await executables.tools.get("config_loader").reloadConfigs();
+    await executables.tools.get("config_loader").reloadAllKeys();
 
     logger.info("READY TO GO!");
 });

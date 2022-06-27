@@ -4,7 +4,7 @@ const buttonRow_approveSuccess = (who, when, link) => {
     .addComponents(
         new MessageButton()
             .setLabel(`${who} ${when}`)
-            .setCustomId('recycle_cfs')
+            .setCustomId('ask_recycle_cfs_trigger')
             .setStyle('SUCCESS'),
     )
     .addComponents(
@@ -15,6 +15,17 @@ const buttonRow_approveSuccess = (who, when, link) => {
     )
     ;
     }
+
+const buttonRow_askRecycle = (cfs_id) => {
+    return new MessageActionRow()
+        .addComponents(
+            new MessageButton()
+                .setLabel(`Recycle cfsID: ${cfs_id}`)
+                .setCustomId('ask_recycle_cfs_execute')
+                .setStyle('SECONDARY'),
+        )
+}
+
 const buttonRow_approveFail = (errorCode) => {
     return new MessageActionRow()
     .addComponents(
@@ -37,7 +48,7 @@ const buttonRow_deny = (who, when) => {
     }
 const buttonRow_autoDeny = (reason) => {
     if (reason.length > 70){
-        reason = reason.substring(0, 69);
+        reason = `${reason.substring(0, 65)}...`;
     }
     return new MessageActionRow()
         .addComponents(
@@ -93,5 +104,6 @@ module.exports = {
     buttonRow_deny,
     buttonRow_autoDeny,
     buttonRow_unblocked,
+    buttonRow_askRecycle,
     buttonRow_basic
 }
