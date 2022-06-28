@@ -10,7 +10,7 @@ function execute(interaction){
     const log = logger.child({ module: "interaction/slash/ping" });
     const { ms2human } = executables.tools.get('timetools');
 
-    const time = new Date().toString().split(' ').splice(0, 6).join(' ');
+    const time = Moment().tz("Asia/Ho_Chi_Minh").format();
 
     const embed = new MessageEmbed()
         .setTitle('🔥 PING PONG')
