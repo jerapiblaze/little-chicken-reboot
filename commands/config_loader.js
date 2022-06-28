@@ -1,5 +1,4 @@
 const fs = require('fs');
-const { config } = require('process');
 var configStore = new Map();
 
 const log = logger.child({ module: "config_loader" });
