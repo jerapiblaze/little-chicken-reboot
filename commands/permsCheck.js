@@ -19,7 +19,14 @@ async function checkPerms(member, perms){
     }
     return true;
 }
+
+async function isOwner(user_id){
+    return (user_id == process.env.OWNER_UID)
+}
+
 module.exports = {
     commandType: "tools",
-    checkRoleName
+    checkRoleName,
+    checkPerms,
+    isOwner
 }
