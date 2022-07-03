@@ -3,6 +3,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const slashCommandRegInfo = new SlashCommandBuilder()
     .setName('scan_missed_cfs')
     .setDescription('Scan for missed cfs in a raw-channel')
+    .setDMPermission(false)
 
 
 // /scan_missed_cfs
