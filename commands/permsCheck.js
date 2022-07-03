@@ -1,3 +1,5 @@
+const { Permissions } = require('discord.js');
+
 async function checkRoleName(member, roleName){
     await member.fetch();
     const memberRoles = member.roles.cache.values();
