@@ -19,9 +19,6 @@ const slashCommandRegInfo = new SlashCommandBuilder()
                 { name: 'Tags in page', value: 'pageTags'}
             ))
 
-
-const configTypeNames = ['adminMask', 'bannedWords', 'pageCount', 'pageSettings', 'pageTags']
-
 async function execute(interaction){
     if (!interaction.guildId){
         return 0;
@@ -40,7 +37,7 @@ async function execute(interaction){
     const file2SendList = [];
 
     if (userChoice == '--view-all'){
-        await interaction.editReply({content: `${fileNames}`, ephemeral: true});
+        await interaction.editReply({content: `**Avalable files:** ${fileNames}`, ephemeral: true});
         return 0;
     }
 
@@ -51,14 +48,14 @@ async function execute(interaction){
     } else {
         const requestedFileName = fileNames.find(f => f == `${interaction.guildId}_${userChoice}.json`);
         if (!requestedFileName) {
-            await interaction.editReply({ content: 'Error: 404', ephemeral: true });
+            await interaction.editReply({ content: 'Error: **404 Not found**', ephemeral: true });
             return 0;
         } else {
             file2SendList.push(`${DATA_PATH}/server_configs/${interaction.guildId}_${userChoice}.json`);
         }
     }
 
-    await interaction.editReply({ content: 'Requested files is here. To import configs, please DM me.', files: file2SendList, ephemeral: true});
+    await interaction.editReply({ content: 'Requested files is here. **To import configs, please DM me.**', files: file2SendList, ephemeral: true});
     return 0;
 }
 
