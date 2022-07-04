@@ -1,7 +1,7 @@
 require("dot-env");
 const { Client, Intents } = require('discord.js');
 const { DISCORD_TOKEN, DISCORD_CLIENT_ID, DISCORD_TEST_GUILD_ID, ENVIRONMENT, BACKUP_ENABLE, RESTORE_AT_STARTUP, BACKUP_ON_EXIT, BACKUP_INTERVAL } = process.env;
-const backupTools = require('./backup-restore.js');
+global.backupTools = require('./backup-restore.js');
 const fs = require('fs');
 global.DATA_PATH = `${__dirname}/data`;
 global.Moment = require('moment-timezone');
@@ -20,7 +20,6 @@ global.logger = require("pino")({
 logger.info(`Little Chicken v3.0 (${ENVIRONMENT})`);
 
 // load executables
-logger.info("Scanning for executables...");
 global.executables = new Object();
 executables.interactionCreate = {
     command: new Map(),
@@ -147,7 +146,6 @@ client.on('messageCreate', async message => {
 
 client.on('rateLimit', info => logger.warn(info));
 
-logger.info("Logging in...");
 client.login(DISCORD_TOKEN).catch(e => {
     logger.error(`Login failed: ${e}`);
 });

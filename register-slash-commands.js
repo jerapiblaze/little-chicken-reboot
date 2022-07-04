@@ -17,26 +17,21 @@ global.logger = require("pino")({
 });
 
 // scan for slash commands
-logger.info("Scanning for js file in ./commands")
 const filenames = fs.readdirSync('./commands').filter(f => f.endsWith('.js'));
-logger.info(`Found ${filenames.length} js file(s).`)
 const commands = [];
 
 for (var f of filenames) {
     const file = require(`./commands/${f}`);
     if (!file.slashCommandRegInfo) continue;
-    logger.info(`Adding ${f.split('.')[0]} to queue...`);
     commands.push(file.slashCommandRegInfo);
 }
 
-logger.info(`Added ${commands.length} commands to queue.`)
 commands.map(command => command.toJSON());
 
 // upload to Discord
 if (DISCORD_TEST_GUILD_ID.length > 0){
     const guildIds = DISCORD_TEST_GUILD_ID.split(",");
     for (g of guildIds){
-        logger.info(`Registering commands for guild ${g}...`);
         const rest = new REST({ version: '9' }).setToken(DISCORD_TOKEN);
         rest.put(Routes.applicationGuildCommands(DISCORD_CLIENT_ID, g), { body: commands })
             .then(() => logger.info(`Successfully registered application commands for guild ${g}`))
@@ -44,7 +39,6 @@ if (DISCORD_TEST_GUILD_ID.length > 0){
     };
 };
 if (GLOBAL_SLASH == 1) {
-    logger.info(`Registering commands in global...`);
     const rest = new REST({ version: '9' }).setToken(token);
     rest.put(Routes.applicationCommands(DISCORD_CLIENT_ID), {body: commands})
         .then(() => logger.info(`Successfully registered application commands.`))
