@@ -89,7 +89,7 @@ async function restore(msgid){
     const remoteHash = parsedFilename[1];
     const remoteEnvironment = parsedFilename[2];
     // calc md5
-    const environment = process.env.environment;
+    const environment = process.env.ENVIRONMENT;
     if (environment != remoteEnvironment) 
         logger.warn(`Different environment! Remote:${remoteEnvironment} Current:${environment}`);
     const hash = await md5File(`./${filename}`);
