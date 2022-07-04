@@ -1,4 +1,3 @@
-const fs = require('fs');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const configTypeNames = ['adminMask', 'bannedWords', 'pageCount', 'pageSettings', 'pageTags'];
@@ -60,6 +59,5 @@ async function execute(message) {
 
 module.exports = {
     commandType: "message/messageCreate",
-    // slashCommandRegInfo,
     execute
 }

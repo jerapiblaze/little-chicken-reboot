@@ -1,8 +1,6 @@
 const stripIndent = require('common-tags/lib/stripIndent');
 const FB = require('fb');
 
-function sleep(time) { return new Promise((resolve) => setTimeout(resolve, time)) }
-
 async function execute(interaction) {
     const allowed = await executables.tools.get('permsCheck').checkRoleName(interaction.member, 'cfs-moderator');
     if (!allowed) {
@@ -74,7 +72,7 @@ async function execute(interaction) {
     await executables.tools.get('config_loader').writeConfig(`${interaction.guildId}_pageCount`, '_id', pageConfig._id, pageCount);
 
     await interaction.deferUpdate();
-    // post to facebook
+
     try {
         FB.setAccessToken(pageConfig.fbToken);
         const fbRes = await FB.api(`${pageConfig.fbPageID}/feed`, 'post', {message: postContent.toString()});
@@ -89,6 +87,5 @@ async function execute(interaction) {
 
 module.exports = {
     commandType: "interactionCreate/button",
-    //slashCommandRegInfo,
     execute
 }
