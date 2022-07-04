@@ -1,0 +1,72 @@
+# Little-chicken-2
+*A rebooted version of Little-chicken.*<br>
+A bot made for fun.
+
+## How-tos
+### Export configs
+1. Use the `/export_config` slash command
+2. Select and download the file(s)
+### Import configs
+1. Prepare the files with correct filename syntax (`<serverid>_<filetype>.json`)
+2. Upload the files with message content `/import` in the bot's ***DM box***.
+3. Wait for the response from the bot.
+### Config files
+#### Admin nicknames: `<serverid>_adminMask.json`
+```json
+[{
+    "_uid":"423764796375171073",
+    "nickname":"#gàe",
+    "role":"trùm server"
+}]
+```
+#### Banned words `<serverid>_bannedWords.json`
+```json
+[
+    {
+        "_id":"test",
+        "blockedWords":["gay"]
+    }
+]
+```
+#### Page cfs count `<serverid>_pageCount.json`
+```json
+[
+    {
+        "_id":"test",
+        "count":0
+    }
+]
+```
+#### Page settings `<serverid>_pageSettings`
+```json
+[
+    {
+        "_id":"test",
+        "fbToken":"token_here",
+        "fbPageID":"814628905588489",
+        "rawChannelID":"988456544716881981",
+        "hallChannelID":"766934758956728320",
+        "allowPublicReply":true, 
+        "notes":"Đọc cfs với một chiếc đầu lạnh. Suy nghĩ kĩ rồi mới hành động. Đừng tay nhanh hơn não."
+    }
+]
+```
+#### Page Tags `<serverid>_pageTags`
+```json
+[
+    {
+        "_id":"test",
+        "tags":[{
+            "name":"#offtopic",
+            "note":"chuyện ngoài lề",
+            "icon":"⬛",
+            "censor":true
+        }, {
+            "name":"#joke",
+            "note":"đây là một trò đùa",
+            "icon":"🤡",
+            "censor": false
+        }]
+    }
+]
+```
