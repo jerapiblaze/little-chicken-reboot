@@ -10,7 +10,7 @@ global.logger = require("pino")({
         targets: [
             { target: 'pino/file', options: { destination: './data/logs/regCommands.log', mkdir: true } },
             { target: 'pino/file', options: { destination: './data/logs/timeline.log', mkdir: true } },
-            { target: 'pino-pretty', options: { destination: 1, colorize: true } }
+            { target: 'pino-pretty', options: { destination: 1, colorize: (process.env.ENVIRONMENT == 'DEV') } }
         ]
     },
     name: 'register-slash-commands'
