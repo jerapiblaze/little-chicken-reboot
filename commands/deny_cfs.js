@@ -3,7 +3,7 @@ async function execute(interaction) {
     if (!allowed){
         return 0;
     }
-    interaction.update({ components: [executables.tools.get('buttons_cfs').buttonRow_deny(interaction.user.tag, Moment().tz("Asia/Ho_Chi_Minh").format())] });
+    interaction.update({ components: [executables.tools.get('buttons_cfs').buttonRow_deny(interaction.user.tag, Moment().tz(process.env.TIMEZONE_NAME).format())] });
 }
 
 module.exports = {
