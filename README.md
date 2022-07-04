@@ -20,18 +20,22 @@ node main.js
 ### Config files
 #### Admin nicknames: `<serverid>_adminMask.json`
 ```json
-[{
-    "_uid":"423764796375171073",
-    "nickname":"#gàe",
-    "role":"trùm server"
-}]
+[
+    {
+        "_uid":"423764796375171073",
+        "nickname":"#gàe",
+        "role":"trùm server"
+    }
+]
 ```
 #### Banned words `<serverid>_bannedWords.json`
 ```json
 [
     {
         "_id":"test",
-        "blockedWords":["gay"]
+        "blockedWords":[
+            "gay"
+        ]
     }
 ]
 ```
@@ -63,17 +67,20 @@ node main.js
 [
     {
         "_id":"test",
-        "tags":[{
-            "name":"#offtopic",
-            "note":"chuyện ngoài lề",
-            "icon":"⬛",
-            "censor":true
-        }, {
-            "name":"#joke",
-            "note":"đây là một trò đùa",
-            "icon":"🤡",
-            "censor": false
-        }]
+        "tags":[
+            {
+                "name":"#offtopic",
+                "note":"chuyện ngoài lề",
+                "icon":"⬛",
+                "censor":true
+            }, 
+            {
+                "name":"#joke",
+                "note":"đây là một trò đùa",
+                "icon":"🤡",
+                "censor": false
+            }
+        ]
     }
 ]
 ```
