@@ -43,9 +43,9 @@ A bot made for fun.
     {
         "_id":"test",
         "fbToken":"token_here",
-        "fbPageID":"814628905588489",
-        "rawChannelID":"988456544716881981",
-        "hallChannelID":"766934758956728320",
+        "fbPageID":"fb_page_id",
+        "rawChannelID":"raw_channel_id",
+        "hallChannelID":"hall_channel_id",
         "allowPublicReply":true, 
         "notes":"Đọc cfs với một chiếc đầu lạnh. Suy nghĩ kĩ rồi mới hành động. Đừng tay nhanh hơn não."
     }
