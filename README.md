@@ -70,3 +70,23 @@ A bot made for fun.
     }
 ]
 ```
+### Environment variables
+Please config all of the environment variables before launch.
+You can put the `.env.json` file at the root directory.
+```json
+{
+    "DISCORD_TOKEN":"discord_token",
+    "TIMEZONE_NAME":"Asia/Ho_Chi_Minh",
+    "DISCORD_CLIENT_ID":"client_id",
+    "DISCORD_TEST_GUILD_ID":"test_guild_id_1,test_guild_id_2",
+    "OWNER_UID":"owner_uid",
+    "GLOBAL_SLASH":0,
+    "ENVIRONMENT":"STABLE",
+    "BACKUP_ENABLE":0,
+    "BACKUP_CHANNEL":"channel_to_send_backups",
+    "RESTORE_AT_STARTUP":0,
+    "BACKUP_ON_EXIT":0,
+    "BACKUP_INTERVAL":43200000
+}
+```
+Reference to `TIMEZONE_NAME` is [here](https://momentjs.com/timezone/).
