@@ -7,6 +7,10 @@ A bot made for fun.
 ```bat
 rem:build the bot
 npm i
+rem:delete old slash-commands entries
+node delete-all-slash.js
+rem:register slash-commands
+node register-slash-commands.js
 rem:launch the bot
 node main.js
 ```
