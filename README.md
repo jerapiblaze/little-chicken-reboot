@@ -3,6 +3,13 @@
 A bot made for fun.
 
 ## How-tos
+### Build and launch the bot (locally)
+```bat
+rem:build the bot
+npm i
+rem:launch the bot
+node main.js
+```
 ### Export configs
 1. Use the `/export_config` slash command
 2. Select and download the file(s)
@@ -37,7 +44,7 @@ A bot made for fun.
     }
 ]
 ```
-#### Page settings `<serverid>_pageSettings`
+#### Page settings `<serverid>_pageSettings.json`
 ```json
 [
     {
@@ -51,7 +58,7 @@ A bot made for fun.
     }
 ]
 ```
-#### Page Tags `<serverid>_pageTags`
+#### Page Tags `<serverid>_pageTags.json`
 ```json
 [
     {
@@ -71,8 +78,8 @@ A bot made for fun.
 ]
 ```
 ### Environment variables
-Please config all of the environment variables before launch.
-You can put the `.env.json` file at the root directory.
+**Please config all of the environment variables before launch.**<br>
+You can put the `.env.json` file at the root directory or pre-config the variables.
 ```json
 {
     "DISCORD_TOKEN":"discord_token",
