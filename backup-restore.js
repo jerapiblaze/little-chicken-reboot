@@ -40,7 +40,7 @@ async function backup(){
     // calc md5
     const hash = await md5File(`./${tempfilename}`);
     // rename file
-    const filename = `${timestamp}.${hash}.${process.env.environment}.zip`;
+    const filename = `${timestamp}.${hash}.${process.env.ENVIRONMENT}.zip`;
     fs.renameSync(`./${tempfilename}`, `./${filename}`);
     logger.trace(`Backup file: ${filename}`);
     
