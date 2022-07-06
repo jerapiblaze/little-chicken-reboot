@@ -18,10 +18,10 @@ async function execute(interaction) {
 
     var newEmbedFields = oldEmbedFields;
 
-    if (oldEmbedFields.filter(f => f.name == 'Tags').length >= 5){
+    if (oldEmbedFields.filter(f => f.name.startsWith(`ReplyID:`)).length >= 5){
         return 0;
     }
-    
+
     if (rawReplyContent.startsWith('/rm')){
         const allowed = await executables.tools.get('permsCheck').checkRoleName(interaction.member, 'cfs-moderator');
         if (!allowed) {
