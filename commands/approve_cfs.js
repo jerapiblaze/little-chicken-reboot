@@ -76,7 +76,7 @@ async function execute(interaction) {
     try {
         FB.setAccessToken(pageConfig.fbToken);
         const fbRes = await FB.api(`${pageConfig.fbPageID}/feed`, 'post', {message: postContent.toString()});
-        await interaction.editReply({ components: [executables.tools.get('buttons_cfs').buttonRow_approveSuccess(interaction.user.tag, Moment().tz(process.env.TINEZONE_NAME).format(), `https://fb.com/${fbRes.id}/`)] });
+        await interaction.editReply({ components: [executables.tools.get('buttons_cfs').buttonRow_approveSuccess(interaction.user.tag, Moment().tz(process.env.TIMEZONE_NAME).format(), `https://fb.com/${fbRes.id}/`)] });
         return 0;
     } catch(e){
         const error = e.response.error;
