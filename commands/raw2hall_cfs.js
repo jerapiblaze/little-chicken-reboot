@@ -16,7 +16,7 @@ async function execute(message){
     const hallChannel = message.client.channels.cache.get(pageConfig.hallChannelID);
 
     const blockedWordList = await executables.tools.get('config_loader').findConfig(`${message.guildId}_bannedWords`, '_id', pageConfig._id);
-    const blockedState = await executables.tools.get('wordfilter').checkBlocked(message, blockedWordList.blockedWords);
+    const blockedState = await executables.tools.get('wordfilter').checkBlocked(message, blockedWordList ? blockedWordList.blockedWords : []);
     if (blockedState.verify) {
         await hallChannel.send({ embeds: message.embeds, components: [executables.tools.get('buttons_cfs').buttonRow_autoDeny(blockedState.word)] });
     } else {
