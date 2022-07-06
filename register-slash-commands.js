@@ -39,7 +39,7 @@ if (DISCORD_TEST_GUILD_ID.length > 0){
     };
 };
 if (GLOBAL_SLASH == 1) {
-    const rest = new REST({ version: '9' }).setToken(token);
+    const rest = new REST({ version: '9' }).setToken(DISCORD_TOKEN);
     rest.put(Routes.applicationCommands(DISCORD_CLIENT_ID), {body: commands})
         .then(() => logger.info(`Successfully registered application commands.`))
         .catch(e => logger.error(e));
