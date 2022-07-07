@@ -88,8 +88,8 @@ client.on('ready', async () => {
         };
         process.exit('exitOk');
     }
-    [`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`, `SIGQUIT`, `beforeExit`].forEach(async (eventType) => {
-        process.on(eventType, exitHandler.bind(null, eventType));
+    [`beforeExit`, `exit`, `uncaughtException`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, , `SIGTERM`, `SIGQUIT`].forEach((eventType) => {
+        process.on(eventType, () => exitHandler.bind(null, eventType));
     });
 
     // load configs
