@@ -63,25 +63,25 @@ const buttonRow_basic = new MessageActionRow()
     .addComponents(
         new MessageButton()
             .setCustomId('approve_cfs')
-            .setLabel('Approve')
+            .setEmoji('👍')
             .setStyle('PRIMARY'),
     )
     .addComponents(
         new MessageButton()
             .setCustomId('deny_cfs')
-            .setLabel('Deny')
+            .setEmoji('👎')
             .setStyle('SECONDARY'),
     )
     .addComponents(
         new MessageButton()
             .setCustomId('edittags_cfs_trigger')
-            .setLabel('Edit tags')
+            .setLabel('Tags')
             .setStyle('SECONDARY'),
     )
     .addComponents(
         new MessageButton()
             .setCustomId('reply_cfs_trigger')
-            .setLabel('Add reply')
+            .setLabel('Reply')
             .setStyle('SECONDARY'),
     )
     ;
