@@ -24,7 +24,7 @@ async function execute(interaction) {
     var i = 0;
     var parsedContent = contentInEmbed[i].value;
 
-    while (contentInEmbed[i].name.startsWith(contentInEmbed[i])){
+    while (contentInEmbed[i].name.startsWith(contentInEmbed[i].value)){
         parsedContent += contentInEmbed[i].value;
         i++;
     }
