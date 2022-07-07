@@ -46,7 +46,7 @@ async function execute(interaction) {
                     }
                     tagsStrings += `${pT.icon} ${pT.note}\n`;
                     if (pT.censor) {
-                        tagsStrings += `.\n.\n.\n.\n.\n.\n.\n`;
+                        tagsStrings += `.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n`;
                     }
                 }
             }
