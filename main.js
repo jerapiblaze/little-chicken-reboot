@@ -88,7 +88,7 @@ client.on('ready', async () => {
         };
         process.exit('exitOk');
     }
-    [`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach(async (eventType) => {
+    [`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`, `SIGQUIT`, `beforeExit`].forEach(async (eventType) => {
         process.on(eventType, exitHandler.bind(null, eventType));
     });
 
