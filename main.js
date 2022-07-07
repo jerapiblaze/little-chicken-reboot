@@ -54,7 +54,30 @@ for (executableFilename of executableFilesList){
 };
 logger.info("Loaded executables.")
 
-// test config loader
+// backup every exit
+async function exitHandler(exitCode, e) {
+    if (exitCode == 'exitOk') {
+        logger.info("EXIT!");
+        return 0;
+    };
+    if (e) {
+        logger.error(e);
+        logger.error(exitCode);
+    } else {
+        logger.info(exitCode);
+    };
+    if (BACKUP_ON_EXIT == 1) {
+        await backupTools.backup();
+    };
+    process.exit('exitOk');
+}
+
+process.on('beforeExit', () => exitHandler('beforeExit', null))
+process.on('exit', () => exitHandler('exit', null))
+process.on('uncaughtException', (err) => exitHandler('uncaughtException', err))
+process.on('SIGINT', () => exitHandler('SIGINT', null))
+process.on('SIGQUIT', () => exitHandler('SIGQUIT', null))
+process.on('SIGTERM', () => exitHandler('SIGTERM', null))
 
 // client initialize
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES], partials:['CHANNEL', 'MESSAGE', 'USER', 'GUILD_MEMBER'] });
@@ -72,25 +95,6 @@ client.on('ready', async () => {
     if (RESTORE_AT_STARTUP == 1){
         await backupTools.restore();
     };
-    // backup every exit
-    async function exitHandler(options, exitCode) {
-        if (exitCode == 'exitOk') {
-            logger.info("EXIT!");
-            return 0;
-        };
-        if (exitCode == 'uncaughtException') {
-            logger.error(exitCode);
-        } else {
-            logger.info(exitCode);
-        };
-        if (BACKUP_ON_EXIT == 1) {
-            await backupTools.backup();
-        };
-        process.exit('exitOk');
-    }
-    [`beforeExit`, `exit`, `uncaughtException`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, , `SIGTERM`, `SIGQUIT`].forEach((eventType) => {
-        process.on(eventType, exitHandler.bind(null, eventType));
-    });
 
     // load configs
     await executables.tools.get("config_loader").reloadAllKeys();
