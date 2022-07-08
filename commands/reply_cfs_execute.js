@@ -18,10 +18,6 @@ async function execute(interaction) {
 
     var newEmbedFields = oldEmbedFields;
 
-    if (oldEmbedFields.filter(f => f.name.startsWith(`ReplyID:`)).length >= 5){
-        return 0;
-    }
-
     if (rawReplyContent.startsWith('/rm')){
         const allowed = await executables.tools.get('permsCheck').checkRoleName(interaction.member, 'cfs-moderator');
         if (!allowed) {
@@ -38,9 +34,13 @@ async function execute(interaction) {
             newEmbedFields = oldEmbedFields.filter(f => (!f.name.includes(parsedCommand[1])));
         }
     } else {
-        newEmbedFields = oldEmbedFields.filter(f => f.name != 'Tags');
-        newEmbedFields.push({ name: `ReplyID:${interaction.id}`, value: `${userInfo}\n${rawReplyContent}`});
-        newEmbedFields = Array().concat(newEmbedFields, oldEmbedFields.filter(f => f.name == 'Tags'));
+        if (oldEmbedFields.filter(f => f.name.startsWith(`ReplyID:`)).length < 5) {
+            newEmbedFields = oldEmbedFields.filter(f => f.name != 'Tags');
+            newEmbedFields.push({ name: `ReplyID:${interaction.id}`, value: `${userInfo}\n${rawReplyContent}` });
+            newEmbedFields = Array().concat(newEmbedFields, oldEmbedFields.filter(f => f.name == 'Tags'));
+        } else {
+            return 0;
+        }
     }
  
     interaction.message.embeds[0].fields = newEmbedFields;
