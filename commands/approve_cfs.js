@@ -21,21 +21,13 @@ async function execute(interaction) {
     }
 
     const contentInEmbed = interaction.message.embeds[0].fields;
-    var i = 0;
-    var parsedContent = contentInEmbed[i].value;
 
-    while (contentInEmbed[i].name.startsWith(contentInEmbed[0].name)){
-        parsedContent += contentInEmbed[i].value;
-        i++;
-    }
+    const parsedContent = contentInEmbed.filter(f => f.name.startsWith(contentInEmbed[0].name)).map(f => f.value).join();
 
-    var replyContent = new String();
-
-    for (f of contentInEmbed.filter(f => f.name.startsWith('ReplyID:'))){
-        replyContent += `${f.value}\n`;
-    }
+    const replyContent = contentInEmbed.filter(f => f.name.startsWith('ReplyID:')).map(f => f.value).join('\n');
 
     var tagsStrings = new String();
+    var tagsCensor = false;
     const tagList = contentInEmbed.filter(f => f.name == 'Tags').length == 1 ? contentInEmbed.filter(f => f.name == 'Tags')[0].value.split(',') : [];
     if (pageTags){
         if (pageTags.tags){
@@ -46,15 +38,14 @@ async function execute(interaction) {
                     }
                     tagsStrings += `${pT.icon} ${pT.note}\n`;
                     if (pT.censor) {
-                        tagsStrings += `.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n`;
+                        tagsCensor = true;
                     }
                 }
             }
         }
     }
-    
-    var postContent = `#${pageConfig._id}\n${tagsStrings.trim().length > 0 ? tagsStrings.trim() + `\n` : ``}${parsedContent.trim()}`;
-    postContent += `\n`;
+    tagsStrings += tagsCensor ? `.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n` : ``;
+    var postContent = `#${pageConfig._id}\n${tagsStrings.trim().length ? tagsStrings.trim() + `\n` : ``}${parsedContent.trim()}\n${replyContent.trim().length ? `====${replyContent.trim()}\n` : ``}`;
 
     if (replyContent.length > 0){
         postContent += `====\n${replyContent.trim()}\n`
@@ -68,7 +59,7 @@ async function execute(interaction) {
     [cfsCount] #${pageCount.count++}
     [note] ${pageConfig.notes}
     `
-
+    
     await executables.tools.get('config_loader').writeConfig(`${interaction.guildId}_pageCount`, '_id', pageConfig._id, pageCount);
 
     await interaction.deferUpdate();
