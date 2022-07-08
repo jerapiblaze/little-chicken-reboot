@@ -10,6 +10,9 @@ async function execute(interaction) {
     }
 
     const pageTags = await executables.tools.get('config_loader').findConfig(`${interaction.guildId}_pageTags`, '_id', pageConfig._id);
+    if (!pageTags){
+        return 0;
+    }
 
     const rawTagsInput = interaction.fields.getTextInputValue('newTags');
 
@@ -39,6 +42,10 @@ async function execute(interaction) {
         }
     }
 
+    if (newTagsString.length == 0){
+        return 0;
+    }
+    
     newTagsString = newTagsString.join(',');
 
     newEmbedFields.push({ name: "Tags", value: newTagsString});
