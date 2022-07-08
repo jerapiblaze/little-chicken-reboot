@@ -45,11 +45,7 @@ async function execute(interaction) {
         }
     }
     tagsStrings += tagsCensor ? `.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n` : ``;
-    var postContent = `#${pageConfig._id}\n${tagsStrings.trim().length ? tagsStrings.trim() + `\n` : ``}${parsedContent.trim()}\n${replyContent.trim().length ? `====${replyContent.trim()}\n` : ``}`;
-
-    if (replyContent.length > 0){
-        postContent += `====\n${replyContent.trim()}\n`
-    }
+    var postContent = `#${pageConfig._id}\n${tagsStrings.trim().length ? tagsStrings.trim() + `\n` : ``}${parsedContent.trim()}\n${replyContent.trim().length ? `====\n${replyContent.trim()}\n` : ``}`;
 
     postContent += stripIndent`
     ====
