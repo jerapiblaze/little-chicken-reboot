@@ -22,7 +22,7 @@ async function execute(interaction) {
         .setLabel(`Input reply`)
         .setStyle('PARAGRAPH')
         .setPlaceholder(`type: /rm --all to remove all replies\ntype: /rm ReplyID:<id> to remove specific reply`)
-        .setMaxLength(100)
+        .setMaxLength(200)
 
     const firstActionRow = new MessageActionRow().addComponents(newTags);
 
