@@ -42,6 +42,7 @@ const buttonRow_deny = (who, when) => {
         new MessageButton()
             .setCustomId('recycle_cfs')
             .setLabel(`${who} ${when}`)
+            .setEmoji('⛔')
             .setStyle('SECONDARY'),
     )
     ;
@@ -54,6 +55,7 @@ const buttonRow_autoDeny = (reason) => {
         .addComponents(
             new MessageButton()
                 .setCustomId('unblock_cfs')
+                .setEmoji('👎')
                 .setLabel(`Blocked: ${reason}`)
                 .setStyle('SECONDARY'),
         )
