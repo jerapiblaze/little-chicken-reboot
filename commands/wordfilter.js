@@ -9,7 +9,7 @@ const checkBlocked = async (message, wordList) => {
 
     for (let w of wordList) {
         const word = w.toString().toLowerCase().trim()
-        if (parsedContent.search(new RegExp(`(\\W(${word})\\W)|(_${word}_)|${word}`, 'g', 'm', 'u')) === -1) continue
+        if (parsedContent.search(new RegExp(`(\\W(${word})\\W)|(_${word}_)|\\s${word}\\s`, 'g', 'm', 'u')) === -1) continue
         return {
             verify: true,
             word: word
