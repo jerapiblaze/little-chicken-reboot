@@ -30,7 +30,7 @@ const buttonRow_approveFail = (errorCode) => {
     return new MessageActionRow()
     .addComponents(
         new MessageButton()
-            .setLabel(`${errorCode}`)
+            .setLabel(`${errorCode.length > 70 ? errorCode.substring(0,65)+'...' : errorCode}`)
             .setCustomId('recycle_cfs')
             .setStyle('DANGER'),
     )
