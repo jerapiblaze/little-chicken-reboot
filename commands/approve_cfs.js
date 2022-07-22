@@ -66,7 +66,7 @@ async function execute(interaction) {
         await interaction.editReply({ components: [executables.tools.get('buttons_cfs').buttonRow_approveSuccess(interaction.user.tag, Moment().tz(process.env.TIMEZONE_NAME).format(), `https://fb.com/${fbRes.id}/`)] });
         return 0;
     } catch(e){
-        const error = e.response.error;
+        const error = e.response ? e.response.error : {code: -1, type:e.toString()};
         await interaction.editReply({ components: [executables.tools.get('buttons_cfs').buttonRow_approveFail(`${error.code}${error.error_subcode ? `(${error.error_subcode})` : ''}_${error.type}`)] });
         return 1;
     }
