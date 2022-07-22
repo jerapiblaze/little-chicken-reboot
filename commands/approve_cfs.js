@@ -20,6 +20,8 @@ async function execute(interaction) {
         await executables.tools.get('config_loader').writeConfig(`${interaction.guildId}_pageCount`, '_id', pageConfig._id, pageCount);
     }
 
+    await interaction.deferUpdate();
+
     const contentInEmbed = interaction.message.embeds[0].fields;
 
     const parsedContent = contentInEmbed.filter(f => f.name.startsWith(contentInEmbed[0].name)).map(f => f.value).join();
@@ -57,8 +59,6 @@ async function execute(interaction) {
     `
     
     await executables.tools.get('config_loader').writeConfig(`${interaction.guildId}_pageCount`, '_id', pageConfig._id, pageCount);
-
-    await interaction.deferUpdate();
 
     try {
         FB.setAccessToken(pageConfig.fbToken);
