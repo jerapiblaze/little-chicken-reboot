@@ -2,6 +2,8 @@ const stripIndent = require('common-tags/lib/stripIndent');
 const FB = require('fb');
 
 async function execute(interaction) {
+    await interaction.deferUpdate();
+    
     const allowed = await executables.tools.get('permsCheck').checkRoleName(interaction.member, 'cfs-moderator');
     if (!allowed) {
         return 0;
@@ -19,8 +21,6 @@ async function execute(interaction) {
         pageCount = { _id: pageConfig._id, count: 0 };
         await executables.tools.get('config_loader').writeConfig(`${interaction.guildId}_pageCount`, '_id', pageConfig._id, pageCount);
     }
-
-    await interaction.deferUpdate();
 
     const contentInEmbed = interaction.message.embeds[0].fields;
 

@@ -14,13 +14,13 @@ function chunkString(str, length) {
 }
 // /test code:<text>
 async function execute(interaction) {
+    await interaction.deferReply({ ephemeral: true });
+
     const allowed = await executables.tools.get('permsCheck').isOwner(interaction.user.id);
     if (!allowed) {
-        interaction.reply({ content: `Not permited.`, ephemeral: true });
+        interaction.editReply({ content: `Not permited.`, ephemeral: true });
         return 0;
     }
-
-    await interaction.deferReply({ ephemeral: true });
 
     const code = interaction.options.getString('code');
     
