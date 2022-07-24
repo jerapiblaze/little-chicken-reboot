@@ -24,14 +24,15 @@ async function execute(interaction){
         return 0;
     }
 
+    await interaction.deferReply({ ephemeral: true });
+
     const allowed = await executables.tools.get('permsCheck').checkPerms(interaction.member, ['ADMINISTRATOR']);
     if (!allowed){
+        interaction.editReply({content: "Not permited!", ephemeral:true});
         return 0;
     }
 
     const userChoice = interaction.options.getString('config_type');
-
-    await interaction.deferReply({ephemeral: true});
 
     const fileNames = fs.readdirSync(`${DATA_PATH}/server_configs`).filter(f => f.startsWith(`${interaction.guildId}_`) && f.endsWith('.json'));
     const file2SendList = [];

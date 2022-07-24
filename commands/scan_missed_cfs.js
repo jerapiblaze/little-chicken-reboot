@@ -9,6 +9,7 @@ const slashCommandRegInfo = new SlashCommandBuilder()
 // /scan_missed_cfs
 async function execute(interaction) {
     await interaction.deferReply({ ephemeral: true });
+    
     if (!interaction.guildId) {
         interaction.editReply({ content: "Cannot use in a DM channel.", ephemeral: true});
         return 0;
