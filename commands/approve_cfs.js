@@ -8,6 +8,9 @@ async function execute(interaction) {
     if (!allowed) {
         return 0;
     }
+
+    const adminMask = await executables.tools.get('config_loader').findConfig(`${interaction.guildId}_adminMask`, '_uid', interaction.user.id);
+    const userInfo = adminMask ? adminMask.nickname : interaction.user.tag;
     
     const pageConfig = await executables.tools.get('config_loader').findConfig(`${interaction.guildId}_pageSettings`, 'hallChannelID', interaction.channelId);
     if (!pageConfig) {
@@ -63,7 +66,7 @@ async function execute(interaction) {
     try {
         FB.setAccessToken(pageConfig.fbToken);
         const fbRes = await FB.api(`${pageConfig.fbPageID}/feed`, 'post', {message: postContent.toString()});
-        await interaction.editReply({ components: [executables.tools.get('buttons_cfs').buttonRow_approveSuccess(interaction.user.tag, Moment().tz(process.env.TIMEZONE_NAME).format(), `https://fb.com/${fbRes.id}/`)] });
+        await interaction.editReply({ components: [executables.tools.get('buttons_cfs').buttonRow_approveSuccess(userInfo, Moment().tz(process.env.TIMEZONE_NAME).format(), `https://fb.com/${fbRes.id}/`)] });
         return 0;
     } catch(e){
         const error = e.response ? e.response.error : {code: -1, type:e.toString()};
