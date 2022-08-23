@@ -3,7 +3,9 @@ async function execute(interaction) {
     if (!allowed){
         return 0;
     }
-    interaction.update({ components: [executables.tools.get('buttons_cfs').buttonRow_deny(interaction.user.tag, Moment().tz(process.env.TIMEZONE_NAME).format())] });
+    const adminMask = await executables.tools.get('config_loader').findConfig(`${interaction.guildId}_adminMask`, '_uid', interaction.user.id);
+    const userInfo = adminMask ? adminMask.nickname : interaction.user.tag;
+    interaction.update({ components: [executables.tools.get('buttons_cfs').buttonRow_deny(userInfo, Moment().tz(process.env.TIMEZONE_NAME).format())] });
 }
 
 module.exports = {
