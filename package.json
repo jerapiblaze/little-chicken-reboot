@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "auditfix":"npm audit fix",
-    "start": "node foo.js"
+    "start": "node main.js"
   },
   "author": "jerapiblannett",
   "license": "ISC",
