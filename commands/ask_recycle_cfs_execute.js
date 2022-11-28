@@ -6,7 +6,7 @@ async function execute(interaction) {
         return 0;
     }
 
-    const originalMessageID = interaction.message.reference.messageId;
+    const originalMessageID = interaction.message.id;
     const originalMessage = await interaction.channel.messages.fetch(originalMessageID);
     originalMessage.components = [executables.tools.get('buttons_cfs').buttonRow_basic];
     
