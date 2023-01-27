@@ -6,7 +6,7 @@ const slashCommandRegInfo = new SlashCommandBuilder()
     .setDMPermission(false)
 
 
-// /scan_missed_cfs
+///scan_missed_cfs
 async function execute(interaction) {
     await interaction.deferReply({ ephemeral: true });
     
@@ -30,7 +30,7 @@ async function execute(interaction) {
     const channel = interaction.channel;
     await executables.tools.get('scan_missed_cfs_execute').bulkReRaw2Hall(channel, pageConfig).catch(e => {
         interaction.editReply({ content: `Error: ${e}`, ephemeral: true });
-    }).then({
+    }).then(() => {
         interaction.editReply({ content: `Completed.`, ephemeral: true });
     });
 }
