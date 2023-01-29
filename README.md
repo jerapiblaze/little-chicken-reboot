@@ -108,3 +108,85 @@ You can put the `.env.json` file at the root directory or pre-config the variabl
 }
 ```
 Reference to `TIMEZONE_NAME` is [here](https://momentjs.com/timezone/).
+### Google Forms App script
+```js
+var OLD_POST_URL = "<backup_discord_webhook>";
+var POST_URL = "<discord_webhook>";
+var PAGE_NAME = "<page_name>";
+
+function chunkString(str, length) {
+  return str.match(new RegExp('.{1,' + length + '}', 'g'));
+}
+
+function onSubmit(e) {
+    var form = FormApp.getActiveForm();
+    var allResponses = form.getResponses();
+    var latestResponse = allResponses[allResponses.length - 1];
+    var response = latestResponse.getItemResponses();
+    var items = [];
+  
+    const now = new Date();
+    // getTimezoneOffset returns the offset in minutes, so we have to divide it by 60 to get the hour offset.
+    const offset = now.getTimezoneOffset() / 60;
+    // Change the sign of the offset and format it
+    const timeZone = "GMT+" + offset * (-1) ;
+    var d = Utilities.formatDate(now, timeZone, 'EEE, d MMM yyyy HH:mm');
+
+    for (var i = 0; i < response.length; i++) {
+        var question = response[i].getItem().getTitle();
+        var answer = response[i].getResponse();
+        if (!(typeof(answer) === 'string')){
+          answer = answer.toString();
+        }
+        try {
+            var parts = answer.match(/[\s\S]{1,1024}/g) || [];
+        } catch (e) {
+            var parts = answer;
+        }
+        
+        if (answer == "") {
+            continue;
+        }
+        
+        for (var j = 0; j < parts.length; j++) {
+            if (parts[j].length == 0){
+                continue;
+            }
+            if (j == 0) {
+                items.push({
+                    "name": question,
+                    "value": parts[j],
+                    "inline": false
+                });
+            } else {
+                items.push({
+                    "name": question.concat(" (cont.)"),
+                    "value": parts[j],
+                    "inline": false
+                });
+            }
+        }
+    }
+
+    var options = {
+        "method": "post",
+        "headers": {
+            "Content-Type": "application/json",
+        },
+        "payload": JSON.stringify({
+            "content": null, // This is not an empty string
+            "embeds": [{
+                "title": PAGE_NAME,
+                "fields": items,
+                "footer": {
+                    "text": d
+                }
+            }]
+        })
+    };
+
+    UrlFetchApp.fetch(POST_URL, options);
+};
+
+function delRsp() {FormApp.getActiveForm().deleteAllResponses();}
+```
