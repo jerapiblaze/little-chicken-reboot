@@ -28,10 +28,10 @@ async function execute(interaction) {
     }
 
     const channel = interaction.channel;
-    await executables.tools.get('scan_missed_cfs_execute').bulkReRaw2Hall(channel).catch(e => {
-        interaction.editReply({ content: `Error: ${e}`, ephemeral: true });
-    }).then(() => {
+    await executables.tools.get('scan_missed_cfs_execute').bulkReRaw2Hall(channel).then(() => {
         interaction.editReply({ content: `Completed.`, ephemeral: true });
+    }, (e) => {
+        interaction.editReply({ content: `Error: ${e}`, ephemeral: true });
     });
 }
 
