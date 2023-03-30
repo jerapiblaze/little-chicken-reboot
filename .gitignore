@@ -4,6 +4,7 @@ server_configs/*
 logs/*
 little-chicken-reboot.code-workspace
 .vscode
+.backup
 thunder-tests
 @cloud
 data/*
