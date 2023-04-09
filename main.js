@@ -153,3 +153,15 @@ client.on('rateLimit', info => logger.warn(info));
 client.login(DISCORD_TOKEN).catch(e => {
     logger.error(`Login failed: ${e}`);
 });
+
+const express = require('express')
+const app = express()
+const port = 3000
+
+app.get('/', (req, res) => {
+    res.send("hello, I'm Little-Chicken!")
+})
+
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+})
