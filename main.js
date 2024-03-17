@@ -1,6 +1,6 @@
 require("dot-env");
 const { Client, Intents } = require('discord.js');
-const { DISCORD_TOKEN, DISCORD_CLIENT_ID, DISCORD_TEST_GUILD_ID, ENVIRONMENT, BACKUP_ENABLE, RESTORE_AT_STARTUP, BACKUP_ON_EXIT, BACKUP_INTERVAL } = process.env;
+const { DISCORD_TOKEN, DISCORD_CLIENT_ID, DISCORD_TEST_GUILD_ID, ENVIRONMENT, BACKUP_ENABLE, RESTORE_AT_STARTUP, BACKUP_ON_EXIT, BACKUP_INTERVAL, PORT } = process.env;
 global.backupTools = require('./backup-restore.js');
 const fs = require('fs');
 global.DATA_PATH = `${__dirname}/data`;
@@ -156,7 +156,7 @@ client.login(DISCORD_TOKEN).catch(e => {
 
 const express = require('express')
 const app = express()
-const port = 3000
+const port = PORT
 
 app.get('/', (req, res) => {
     res.send("hello, I'm Little-Chicken!")
