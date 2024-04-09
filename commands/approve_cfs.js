@@ -70,6 +70,7 @@ async function execute(interaction) {
         return 0;
     } catch(e){
         const error = e.response ? e.response.error : {code: -1, type:e.toString()};
+        console.log(error)
         await interaction.editReply({ components: [executables.tools.get('buttons_cfs').buttonRow_approveFail(`${error.code}${error.error_subcode ? `(${error.error_subcode})` : ''}_${error.type}`)] });
         return 1;
     }

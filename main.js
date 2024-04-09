@@ -56,7 +56,7 @@ logger.info("Loaded executables.")
 
 // backup every exit
 async function exitHandler(exitCode, e) {
-    if (exitCode == 'exitOk') {
+    if (exitCode == 0) {
         logger.info("EXIT!");
         return 0;
     };
@@ -69,7 +69,7 @@ async function exitHandler(exitCode, e) {
     if (BACKUP_ON_EXIT == 1) {
         await backupTools.backup();
     };
-    process.exit('exitOk');
+    process.exit(0);
 }
 
 process.on('beforeExit', () => exitHandler('beforeExit', null))
